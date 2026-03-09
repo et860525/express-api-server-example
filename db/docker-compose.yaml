@@ -1,0 +1,23 @@
+name: express-api-server
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: express-api-server_db
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MARIADB_DATABASE: ${DB_DATABASE}
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql # 不掛載在主機上的資料夾，因為會有權限問題導致 Prisma 無法更新 db fields
+    networks:
+      - express_api_server_network
+
+volumes:
+  mariadb_data:
+
+networks:
+  express_api_server_network:
+    driver: bridge

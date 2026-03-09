@@ -1,0 +1,21 @@
+name: express-api-server
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: express-api-server_backend
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "${PORT}:${PORT}"
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - express_api_server_network
+
+networks:
+  express_api_server_network:
+    driver: bridge

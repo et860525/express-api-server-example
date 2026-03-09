@@ -1,0 +1,27 @@
+# 環境變數
+.env
+.env.*
+!.env.example
+
+# 依賴
+node_modules/
+
+# 上傳檔案
+uploads/*
+!uploads/.gitkeep
+
+# Prisma 產生的 client
+src/generated/
+
+# PM2
+.pm2/
+
+# macOS
+.DS_Store
+
+# 編輯器
+.vscode/
+.idea/
+
+# 暫存
+*.log

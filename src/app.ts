@@ -3,6 +3,7 @@ import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import prisma from "./lib/prisma";
+import { requestLogger } from "./middleware/request_logger";
 import { setupSwagger } from "./swagger";
 
 // ====== 環境變數 ======
@@ -23,6 +24,7 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(requestLogger); // 註冊自定義 Logger
 
 // ====== 預設 API ======
 app.get("/", (req, res) => {

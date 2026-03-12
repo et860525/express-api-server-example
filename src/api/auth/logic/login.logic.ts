@@ -30,7 +30,6 @@ export async function loginLogic(req: Request): Promise<ApiResponse> {
   }
 
   // 3. 驗證密碼
-  // TODO: 依你的 hash 方式調整，這裡使用 Bun 內建的 password verify
   const passwordMatch = await Bun.password.verify(
     password,
     (user as any).password,

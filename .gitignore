@@ -25,3 +25,6 @@ src/generated/
 
 # 暫存
 *.log
+
+# log
+logs/

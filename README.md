@@ -44,10 +44,13 @@ src/
 
 ## 使用此模板建立新專案
 
-> **注意：** 此模板建立時所有套件版本均為當下最新版。開始新專案前，建議先更新所有依賴：
+> **⚠ 依賴版本管理原則**
+>
+> **新專案開始時**，請立即將所有依賴更新至最新版本，版本相容問題應在初期解決，而非拖到開發中期：
 > ```bash
-> bun update --latest -u && bun install
+> bun update --latest && bun install
 > ```
+> **一旦專案進入正式開發階段（已有業務邏輯），請停止隨意升級版本。** 版本變動可能引入 breaking change 或難以追蹤的 bug，除非有明確理由（安全性漏洞修補、必要功能支援），否則不應在開發過程中升級依賴。
 
 Clone 後需手動修改以下項目：
 
@@ -106,7 +109,7 @@ cp .env.example .env
 在 `prisma/schema.prisma` 新增你的 Model，然後執行：
 
 ```bash
-bunx prisma migrate dev --name init
+bun prisma migrate dev --name init
 ```
 
 ### 4. 更新 auth.service.ts
@@ -118,6 +121,40 @@ bunx prisma migrate dev --name init
 詳見下方「[部署](#部署)」章節。
 
 API 文件：`http://localhost:{PORT}/api-docs`(預設 PORT=3000)
+
+## Prisma Schema 變更流程
+
+每次在 `prisma/schema.prisma` 新增或修改欄位後，需依序執行以下兩個指令：
+
+### 1. 建立並套用 migration
+
+```bash
+bun prisma migrate dev --name <描述此次變更>
+```
+
+這會在 `prisma/migrations/` 產生對應的 SQL 檔案，並實際套用到資料庫。`--name` 用於說明這次變更的目的，例如 `add_user_avatar`。
+
+### 2. 重新產生 Prisma Client
+
+```bash
+bun prisma generate
+```
+
+這會根據最新的 schema 重新產生 TypeScript 型別定義，讓程式碼中的型別與資料庫欄位保持一致。
+
+> **注意：** 兩個步驟缺一不可。只執行 migrate 不 generate，程式碼的型別不會更新；只 generate 不 migrate，資料庫欄位不會變動。
+
+### 正式環境部署
+
+正式環境不能使用 `migrate dev`（會嘗試重建資料庫），應改用：
+
+```bash
+bun prisma migrate deploy
+```
+
+這只會套用尚未執行過的 migration，不會產生新的 migration 檔案，適合 CI/CD 或部署流程使用。
+
+---
 
 ## 新增模組
 

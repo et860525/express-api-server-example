@@ -15,7 +15,7 @@ export async function loginLogic(req: Request): Promise<ApiResponse> {
 
   if (!requestData.success) {
     const errors_arr = requestData.error.issues.map((i) =>
-      i.path.length > 0 ? `${String(i.path[0])} ${i.message}` : i.message,
+      i.path.length > 0 ? `${i.message}` : i.message,
     );
     return { success: false, status: 400, message: errors_arr.join(", ") };
   }

@@ -5,17 +5,20 @@ services:
     build:
       context: .
       dockerfile: dockerfile
-    container_name: express-api-server_backend
+    container_name: express-api-server
     restart: always
     env_file:
       - .env
     ports:
       - "${PORT}:${PORT}"
     volumes:
+      - .:/app # 掛載專案
+      - /app/node_modules # 停止掛載到本地的 node_modules
+      - /app/db # 停止掛載到本地的 db
       - ./uploads:/app/uploads
     networks:
-      - express_api_server_network
+      - express-api-server-network
 
 networks:
-  express_api_server_network:
+  express-api-server-network:
     driver: bridge

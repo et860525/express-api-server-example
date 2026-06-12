@@ -2,12 +2,9 @@ import { z } from "zod";
 
 // ====== 註冊 ======
 export const registerDto = z.object({
-  email: z
-    .string({ message: "email 不能為空" })
-    .min(1, { message: "email 不能為空" })
-    .refine((value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), {
-      message: "email 格式錯誤",
-    }),
+  username: z
+    .string({ message: "帳號不能為空" })
+    .min(1, { message: "帳號不能為空" }),
   password: z
     .string({ message: "密碼不能為空" })
     .min(6, { message: "密碼至少 6 個字元" }),
@@ -15,12 +12,9 @@ export const registerDto = z.object({
 
 // ====== 登入 ======
 export const loginDto = z.object({
-  account: z
-    .string({ message: "account 不能為空" })
-    .min(1, { message: "account 不能為空" })
-    .refine((value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), {
-      message: "account 格式錯誤，應為 Email 格式",
-    }),
+  username: z
+    .string({ message: "帳號不能為空" })
+    .min(1, { message: "帳號不能為空" }),
   password: z
     .string({ message: "密碼不能為空" })
     .min(1, { message: "密碼不能為空" }),

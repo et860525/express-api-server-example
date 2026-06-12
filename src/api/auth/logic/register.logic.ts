@@ -1,7 +1,7 @@
 import type { Request } from "express";
 import type { ApiResponse } from "../../../types/api_response";
 import { registerDto } from "../auth.dto";
-import { getUserByEmail, createUser } from "../auth.service";
+import { getUserByUsername, createUser } from "../auth.service";
 
 /**
  * 註冊
@@ -19,20 +19,20 @@ export async function registerLogic(req: Request): Promise<ApiResponse> {
     return { success: false, status: 400, message: errors_arr.join(", ") };
   }
 
-  const { email, password } = requestData.data;
+  const { username, password } = requestData.data;
 
-  // 2. 確認 email 是否已被註冊
-  const existing = await getUserByEmail(email);
+  // 2. 確認帳號是否已被註冊
+  const existing = await getUserByUsername(username);
 
   if (existing) {
-    return { success: false, status: 400, message: "此 Email 已被註冊" };
+    return { success: false, status: 400, message: "此帳號已被註冊" };
   }
 
   // 3. 雜湊密碼
   const hashedPassword = await Bun.password.hash(password);
 
   // 4. 建立使用者
-  const user = await createUser({ email, password: hashedPassword });
+  const user = await createUser({ username, password: hashedPassword });
 
   return {
     success: true,
@@ -40,7 +40,7 @@ export async function registerLogic(req: Request): Promise<ApiResponse> {
     message: "註冊成功",
     data: {
       id: user.id,
-      email: user.email,
+      username: user.username,
     },
   };
 }

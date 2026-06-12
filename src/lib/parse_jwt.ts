@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken";
 // Token 解析後的資料結構，對應 JWT payload 中的使用者資訊
 export type AccountToken = {
   id: number;
-  email: string;
+  username: string;
   role: number;
 };
 

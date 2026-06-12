@@ -5,11 +5,14 @@ import prisma, { type PrismaExecutor } from "../../lib/prisma";
 // ******************************************
 
 /**
- * 使用 email 查詢使用者
+ * 使用 username 查詢使用者
  */
-export const getUserByEmail = async (email: string, tx?: PrismaExecutor) => {
+export const getUserByUsername = async (
+  username: string,
+  tx?: PrismaExecutor,
+) => {
   const client = tx ?? prisma;
-  return await client.user.findUnique({ where: { email } });
+  return await client.user.findUnique({ where: { username } });
 };
 
 // ******************************************
@@ -20,10 +23,12 @@ export const getUserByEmail = async (email: string, tx?: PrismaExecutor) => {
  * 建立使用者
  */
 export const createUser = async (
-  data: { email: string; password: string },
+  data: { username: string; password: string },
   tx?: PrismaExecutor,
 ) => {
   const client = tx ?? prisma;
   const now = new Date();
-  return await client.user.create({ data: { ...data, createdAt: now, updatedAt: now } });
+  return await client.user.create({
+    data: { ...data, createdAt: now, updatedAt: now },
+  });
 };

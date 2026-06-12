@@ -2,7 +2,7 @@ import type { Request } from "express";
 import type { ApiResponse } from "../../../types/api_response";
 import jwt from "jsonwebtoken";
 import { loginDto } from "../auth.dto";
-import { getUserByEmail } from "../auth.service";
+import { getUserByUsername } from "../auth.service";
 
 /**
  * 登入
@@ -20,10 +20,10 @@ export async function loginLogic(req: Request): Promise<ApiResponse> {
     return { success: false, status: 400, message: errors_arr.join(", ") };
   }
 
-  const { account, password } = requestData.data;
+  const { username, password } = requestData.data;
 
-  // 2. 查詢使用者（目前 account 為 email 格式）
-  const user = await getUserByEmail(account);
+  // 2. 查詢使用者
+  const user = await getUserByUsername(username);
 
   if (!user) {
     return { success: false, status: 400, message: "帳號或密碼錯誤" };
@@ -43,7 +43,7 @@ export async function loginLogic(req: Request): Promise<ApiResponse> {
   const token = jwt.sign(
     {
       id: (user as any).id,
-      email: (user as any).email,
+      username: (user as any).username,
       role: (user as any).role,
     },
     process.env.JWT_SECRET as string,

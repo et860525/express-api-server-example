@@ -24,7 +24,7 @@ export const authenticateMiddleware = async (
   }
 
   (req as any).account_id = parse_result.id;
-  (req as any).account_email = parse_result.email;
+  (req as any).account_username = parse_result.username;
   (req as any).account_role = parse_result.role;
   next();
 };

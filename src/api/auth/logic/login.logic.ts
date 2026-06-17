@@ -47,7 +47,7 @@ export async function loginLogic(req: Request): Promise<ApiResponse> {
       role: (user as any).role,
     },
     process.env.JWT_SECRET as string,
-    { expiresIn: "30d" },
+    // { expiresIn: "30d" },
   );
 
   return {

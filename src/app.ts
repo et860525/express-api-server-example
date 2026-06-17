@@ -1,3 +1,4 @@
+import path from "node:path";
 import cors from "cors";
 import express from "express";
 import helmet from "helmet";
@@ -24,7 +25,8 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(requestLogger); // 註冊自定義 Logger
+// app.use(requestLogger); // 註冊自定義 Logger 等到正式在開啟
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 // ====== 預設 API ======
 app.get("/", (req, res) => {

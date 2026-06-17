@@ -8,12 +8,14 @@ import fs from "node:fs";
 /**
  * 上傳檔案
  * @param file
- * @param staff_id
+ * @param prefix
+ * @param id
  * @returns
  */
 export async function uploadFiles(
   files: Express.Multer.File[],
-  staff_id: number,
+  prefix: string,
+  id: number,
 ) {
   try {
     // Create a folder for the official doc if it doesn't exist
@@ -22,7 +24,7 @@ export async function uploadFiles(
       "..",
       "..",
       "uploads",
-      `staff_${staff_id}`,
+      `${prefix}_${id}`,
     );
     if (!fs.existsSync(docFolderPath)) {
       fs.mkdirSync(docFolderPath, { recursive: true });

@@ -1,0 +1,2 @@
+# 每日凌晨 3:00（容器時區已設為 Asia/Taipei）執行資料庫備份
+0 3 * * * root /backup.sh >> /var/log/backup.log 2>&1

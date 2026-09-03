@@ -1,11 +1,11 @@
 {
+  "version": "0.1.0",
   "name": "express-api-server",
-  "module": "index.ts",
   "type": "module",
   "private": true,
   "scripts": {
     "dev": "bun --smol --watch src/app.ts",
-    "db:deploy": "prisma migrate deploy && prisma generate",
+    "db:deploy": "prisma generate && prisma migrate deploy",
     "start": "bun run db:deploy && pm2-runtime start ecosystem.config.cjs",
     "pm2:start": "pm2 start ecosystem.config.cjs",
     "pm2:restart": "pm2 restart ecosystem.config.cjs",
@@ -13,7 +13,8 @@
     "pm2:delete": "pm2 delete ecosystem.config.cjs",
     "check": "biome check --write .",
     "format": "biome format --write .",
-    "lint": "biome lint --write ."
+    "lint": "biome lint --write .",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.11",
@@ -26,10 +27,8 @@
     "@types/nodemailer": "^8.0.1",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
+    "typescript": "^6.0.3",
     "prisma": "^7.10.0"
-  },
-  "peerDependencies": {
-    "typescript": "^6.0.3"
   },
   "dependencies": {
     "@prisma/adapter-mariadb": "^7.10.0",

@@ -20,6 +20,35 @@
 
 因備份為 SQL 格式，回復時使用 **`mariadb` 用戶端**（PostgreSQL 情境下對應 `psql`；本系統不使用 Custom Format，故不需要 `pg_restore` 對應的工具）。
 
+## 備份時間與清除時機
+
+備份排程定義於 `db/backup/crontab`，清除邏輯定義於 `db/backup/backup.sh`。
+
+| 項目 | 內容 |
+|---|---|
+| 備份執行時間 | 每日 **03:00**（容器時區 `Asia/Taipei`） |
+| 清除執行時機 | 每次備份**執行完成後**立即清除，非獨立排程（即每日 03:00 備份跑完後順便清除） |
+| `daily/` 保留期限 | 保留 7 天，超過 7 天（`mtime +7`）之檔案於下一次備份後刪除 |
+| `weekly/`、`monthly/` | 資料夾存在，但目前建立與清除邏輯**皆已註解停用**（見 `backup.sh` 第 54-68 行），實際上不會產生也不會清除新檔案，僅 `daily/` 有作用 |
+
+> **回復前備份注意**：由於清除是「備份後立即執行」，`daily/` 內超過 7 天的檔案會在**當天備份完成當下**被刪除，而非累積滿 7 天才於某個固定時間點批次清除。若需要保留特定備份超過 7 天，須依「建立回復前備份」章節另存到 `db/db_backups/` 以外或 `incident/` 等不受清除掃描的位置。
+
+## 手動進行備份
+
+除了每日 03:00 的自動排程，也可隨時手動觸發備份（例如回復前、重大操作前，或單純想立即備份一次）：
+
+```bash
+docker exec express-api-server-db-backup /backup.sh
+```
+
+- 執行的是與自動排程**完全相同的腳本**（`db/backup/backup.sh`），備份檔案一樣會產生在 `db/db_backups/daily/`，檔名規則、清除邏輯（`daily/` 超過 7 天即刪除）也完全一致，不會另外區分「手動」與「自動」備份。
+- 執行完成後可用以下方式確認備份是否成功：
+  ```bash
+  ls -lh db/db_backups/daily/
+  docker exec express-api-server-db-backup cat /var/log/backup.log
+  ```
+- 若手動備份的目的是要保留久一點（例如超過 7 天不想被自動清除），須依下方「建立回復前備份」章節另外複製到不受清除掃描的位置（如 `db/db_backups/incident/`）。
+
 ## 選擇回復用的備份檔案
 
 1. 登入 Docker 主機，進入專案目錄下的 `db/db_backups/`。

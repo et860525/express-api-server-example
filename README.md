@@ -52,25 +52,17 @@ src/
 > ```
 > **一旦專案進入正式開發階段（已有業務邏輯），請停止隨意升級版本。** 版本變動可能引入 breaking change 或難以追蹤的 bug，除非有明確理由（安全性漏洞修補、必要功能支援），否則不應在開發過程中升級依賴。
 
-Clone 後需手動修改以下項目：
+Clone 後請先執行改名腳本，將專案內所有 `express-api-server` 字串（`docker-compose.yaml`、`db/docker-compose.yaml`、`package.json`、`ecosystem.config.cjs`、`DB_RESTORE.md`）一次替換成你的專案名稱：
 
-1. **`docker-compose.yaml`** — 將 `name` 與 `container_name` 改為你的專案名稱：
-   ```yaml
-   name: your-project-name
-   services:
-     app:
-       container_name: your-project-name_backend
-   ```
+```bash
+./scripts/rename-project.sh your-project-name
+```
 
-2. **`ecosystem.config.cjs`** — 將 `name` 改為你的專案名稱（PM2 顯示用）：
-   ```js
-   name: "your-project-name"
-   ```
+接著手動設定 `.env` 的 `APP_NAME`（用於 Swagger 標題，非套件名稱，不會被腳本取代）：
 
-3. **`.env`** — 將 `APP_NAME` 改為你的專案顯示名稱(用於 Swagger 標題)：
-   ```
-   APP_NAME=你的專案名稱
-   ```
+```
+APP_NAME=你的專案名稱
+```
 
 ## 開始使用
 

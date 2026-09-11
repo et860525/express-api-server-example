@@ -6,13 +6,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": [
-      "src/**",
-      "*.json",
-      "*.ts",
-      "*.js",
-      "*.html"
-    ]
+    "includes": ["src/**", "*.json", "*.ts", "*.js", "*.html"]
   },
   "formatter": {
     "enabled": true,
@@ -63,9 +57,7 @@
   },
   "overrides": [
     {
-      "includes": [
-        "**/*.vue"
-      ],
+      "includes": ["**/*.vue"],
       "linter": {
         "rules": {
           "correctness": {

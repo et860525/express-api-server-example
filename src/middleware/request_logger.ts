@@ -5,7 +5,7 @@ import logger from "../logger";
 const ignoredPaths = [
   "/favicon.ico",
   "/api-docs", // Swagger 文件通常不需要紀錄
-  // "/health", // 未來如果有健康檢查 API 也可以加在這裡
+  "/health", // 健康檢查會被頻繁探測，不需要每次都記錄
 ];
 
 export const requestLogger = (

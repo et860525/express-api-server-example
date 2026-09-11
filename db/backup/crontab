@@ -1,2 +1,7 @@
+# cron.d 檔案內宣告的環境變數只作用於本檔案內的 job（cron 不會把 daemon 自身的環境
+# 傳給子 job），docker-compose 設定的 TZ 只對 daemon 排程時間生效，job 內部（含
+# backup.sh 產生的檔名時間戳記／log 時間）仍需在此另外宣告才會是 Asia/Taipei
+TZ=Asia/Taipei
+
 # 每日凌晨 3:00（容器時區已設為 Asia/Taipei）執行資料庫備份
 0 3 * * * root /backup.sh >> /var/log/backup.log 2>&1

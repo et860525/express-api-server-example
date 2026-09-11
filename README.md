@@ -87,6 +87,7 @@ cp .env.example .env
 | `PORT` | 伺服器監聽 port | `3000` |
 | `APP_NAME` | 專案名稱(顯示於 Swagger 標題) | `預設專案` |
 | `BASE_URL` | 對外的 base URL，留空則自動用 `PORT` 組成 | `http://localhost:{PORT}` |
+| `CORS_ORIGIN` | 正式環境（`ENV=production`）允許跨域的前端網域，多個以逗號分隔。未設定時 development 預設全部允許、production 預設全部拒絕 | — |
 | `JWT_SECRET` | JWT 簽名密鑰 | — |
 | `DB_HOST` | 資料庫主機 | — |
 | `DB_PORT` | 資料庫 port | `3306` |
@@ -95,6 +96,11 @@ cp .env.example .env
 | `DB_DATABASE` | 資料庫名稱 | — |
 
 > **部署提示：** 正式環境將 `BASE_URL` 填入正式網域(如 `https://example.com/api`)，`PORT` 不需修改。
+>
+> **`ENV=production` 時會自動關閉／切換的功能**：
+> - Swagger UI（`/api-docs`）不會註冊，對外一律 404，避免洩漏 API 結構。
+> - 請求記錄改用 `requestLogger`（寫入 `logs/`，見 [LOGGING.md](LOGGING.md)），不再用 `morgan("dev")` 印到終端機。
+> - CORS 預設拒絕所有來源，須設定 `CORS_ORIGIN` 才會放行。
 
 ### 3. 定義 Prisma Model
 
@@ -202,3 +208,22 @@ BASE_URL=https://your-domain.com/api   # 對外的正式網域
 ```bash
 docker compose up -d
 ```
+
+## 資料庫備份
+
+啟動 `db/docker-compose.yaml` 時，會一併啟動一個 `backup` 服務（container：`express-api-server-db-backup`）自動備份 MariaDB。
+
+| 項目 | 內容 |
+|---|---|
+| 備份時間 | 每日 **03:00**（`Asia/Taipei`） |
+| 備份方式 | `mariadb-dump` 匯出為 SQL，並以 gzip 壓縮 |
+| 儲存位置 | `db/db_backups/daily/`（此資料夾已加入 `.gitignore`，不會進版控） |
+| 保留期限 | 7 天，超過即於下一次備份完成後自動清除 |
+
+手動立即備份一次：
+
+```bash
+docker exec express-api-server-db-backup /backup.sh
+```
+
+資料庫回復程序（含如何選擇備份檔案、暫停服務、還原、回復後確認等完整步驟）請見 [DB_RESTORE.md](DB_RESTORE.md)。

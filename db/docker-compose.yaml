@@ -15,6 +15,22 @@ services:
     networks:
       - express-api-server-network
 
+  backup:
+    build:
+      context: ./backup
+    container_name: express-api-server-db-backup
+    restart: always
+    environment:
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      TZ: Asia/Taipei
+    volumes:
+      - ./db_backups:/backups
+    depends_on:
+      - mariadb
+    networks:
+      - express-api-server-network
+
 volumes:
   mariadb_data:
 

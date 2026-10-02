@@ -11,6 +11,8 @@
     "pm2:restart": "pm2 restart ecosystem.config.cjs",
     "pm2:stop": "pm2 stop ecosystem.config.cjs",
     "pm2:delete": "pm2 delete ecosystem.config.cjs",
+    "docker:up": "cd db && docker compose up -d && cd .. && docker compose up -d",
+    "docker:down": "docker compose down && cd db && docker compose down",
     "check": "biome check --write .",
     "format": "biome format --write .",
     "lint": "biome lint --write .",
@@ -23,12 +25,12 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/morgan": "^1.9.10",
-    "@types/multer": "^2.2.0",
-    "@types/nodemailer": "^8.0.1",
+    "@types/multer": "^2.3.0",
+    "@types/nodemailer": "^8.0.2",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
-    "typescript": "^6.0.3",
-    "prisma": "^7.10.0"
+    "prisma": "^7.10.0",
+    "typescript": "^6.0.3"
   },
   "dependencies": {
     "@prisma/adapter-mariadb": "^7.10.0",
@@ -39,13 +41,13 @@
     "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.12.1",
-    "multer": "^2.3.0",
+    "multer": "^2.4.0",
     "nodemailer": "^8.0.11",
     "pm2": "^7.0.4",
     "swagger-jsdoc": "^6.3.0",
     "swagger-ui-express": "^5.0.1",
     "winston": "^3.19.0",
     "winston-daily-rotate-file": "^5.0.0",
-    "zod": "^4.6.2"
+    "zod": "^4.6.5"
   }
 }

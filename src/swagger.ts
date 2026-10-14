@@ -4,7 +4,7 @@ import swaggerUi from "swagger-ui-express";
 
 // ====== 環境變數 ======
 const port = process.env.PORT || 3000;
-const appName = process.env.APP_NAME || "預設專案";
+const appName = process.env.APP_NAME || "Default Project";
 const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 
 const options = {

@@ -85,7 +85,7 @@ cp .env.example .env
 |---|---|---|
 | `ENV` | 執行環境（`development` / `production`） | `development` |
 | `PORT` | 伺服器監聽 port | `3000` |
-| `APP_NAME` | 專案名稱(顯示於 Swagger 標題) | `預設專案` |
+| `APP_NAME` | 專案名稱(顯示於 Swagger 標題) | `Default Project` |
 | `BASE_URL` | 對外的 base URL，留空則自動用 `PORT` 組成 | `http://localhost:{PORT}` |
 | `CORS_ORIGIN` | 正式環境（`ENV=production`）允許跨域的前端網域，多個以逗號分隔。未設定時 development 預設全部允許、production 預設全部拒絕 | — |
 | `JWT_SECRET` | JWT 簽名密鑰 | — |

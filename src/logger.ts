@@ -17,7 +17,9 @@ const levels = {
 const level = () => {
   const env = process.env.ENV || "development";
   const isDevelopment = env === "development";
-  return isDevelopment ? "debug" : "warn";
+  // warn 會把 requestLogger 用的 info 等級正常請求紀錄整個濾掉，
+  // 正式環境改用 info，才能保留一般請求的追蹤紀錄，debug 雜訊仍會被濾掉
+  return isDevelopment ? "debug" : "info";
 };
 
 const colors = {

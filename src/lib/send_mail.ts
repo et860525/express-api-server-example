@@ -11,7 +11,7 @@
  */
 import nodemailer from "nodemailer";
 
-const appName = process.env.APP_NAME || "預設專案";
+const appName = process.env.APP_NAME || "Default Project";
 const mailUser = process.env.MAIL_USER;
 
 // 建立 Gmail SMTP 傳輸器，憑證從 .env 讀取

@@ -44,8 +44,9 @@ export const requestLogger = (
 
     const duration = Date.now() - start;
 
-    const logData = {
-      message: "API Request", // 這是給 console 看的簡短訊息
+    // 終端機上顯示
+    const message = `${method} ${originalUrl} ${res.statusCode} ${duration}ms`;
+    const meta = {
       method,
       path: originalUrl,
       status: res.statusCode,
@@ -56,11 +57,10 @@ export const requestLogger = (
       // query: req.query,
     };
 
-    // 這裡傳入物件，Winston 的 json format 會自動將其序列化存入檔案
     if (res.statusCode >= 400) {
-      logger.error(logData);
+      logger.error(message, meta);
     } else {
-      logger.info(logData);
+      logger.info(message, meta);
     }
   });
 

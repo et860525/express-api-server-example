@@ -227,3 +227,26 @@ docker exec express-api-server-db-backup /backup.sh
 ```
 
 資料庫回復程序（含如何選擇備份檔案、暫停服務、還原、回復後確認等完整步驟）請見 [DB_RESTORE.md](DB_RESTORE.md)。
+
+## 上傳檔案備份
+
+根目錄 `docker-compose.yaml` 也有一個對應的 `uploads-backup` 服務（container：`express-api-server-uploads-backup`），機制跟資料庫備份完全一樣，只是備份對象換成 `uploads/` 資料夾。
+
+| 項目 | 內容 |
+|---|---|
+| 備份時間 | 每日 **03:15**（`Asia/Taipei`，跟資料庫備份錯開 15 分鐘避免同時間 I/O） |
+| 備份方式 | `tar -czf` 打包整個 `uploads/` 資料夾 |
+| 儲存位置 | `uploads_backups/daily/`（此資料夾已加入 `.gitignore`，不會進版控） |
+| 保留期限 | 7 天，超過即於下一次備份完成後自動清除 |
+
+手動立即備份一次：
+
+```bash
+docker exec express-api-server-uploads-backup /backup.sh
+```
+
+還原時直接把備份檔解壓縮回 `uploads/` 即可，不需要像資料庫一樣停服務：
+
+```bash
+tar -xzf uploads_backups/daily/<選定的備份檔> -C uploads/
+```

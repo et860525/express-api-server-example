@@ -1,9 +1,18 @@
+# 開發相關
 node_modules
+.DS_Store
+.git
+
+# 環境變數
 .env
 .env.*
 !.env.example
+
+# 資料庫備份&上傳檔案備份
 uploads
+uploads_backups
+backup-uploads
+
+# 資料庫
 db
 src/generated
-.DS_Store
-.git

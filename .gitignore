@@ -29,5 +29,6 @@ src/generated/
 # log
 logs/
 
-# 資料庫備份檔案（可能含真實使用者資料，不應進版控）
+# 資料庫備份&上傳檔案備份
 db/db_backups/
+uploads_backups/

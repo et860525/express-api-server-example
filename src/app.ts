@@ -74,7 +74,7 @@ if (!isProduction) {
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(
     `[${appName}]: Server is running at http://localhost:${port} in ${env.ENV}`,
   );
@@ -82,3 +82,25 @@ app.listen(port, () => {
     console.log(`[${appName}]: Deployed at ${baseUrl}`);
   }
 });
+
+// ====== Graceful Shutdown ======
+// Docker/PM2 重啟或部署時會送 SIGTERM，沒處理的話現有請求可能被中斷、
+// Prisma 連線也沒有正常關閉
+const shutdown = (signal: string) => {
+  console.log(`[${appName}]: 收到 ${signal}，開始關閉伺服器...`);
+
+  server.close(async () => {
+    await prisma.$disconnect();
+    console.log(`[${appName}]: 伺服器已關閉`);
+    process.exit(0);
+  });
+
+  // 避免有連線卡住導致永遠關不掉，給一個強制退出的上限
+  setTimeout(() => {
+    console.error(`[${appName}]: 關閉逾時，強制結束程序`);
+    process.exit(1);
+  }, 10000).unref();
+};
+
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+process.on("SIGINT", () => shutdown("SIGINT"));

@@ -44,12 +44,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 // ====== 預設 API ======
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
   res.json({ message: "Server is running!", env: env.ENV });
 });
 
 // ====== 健康檢查（實際確認資料庫連線，供 Docker / 負載平衡器探測用）======
-app.get("/health", async (req, res) => {
+app.get("/health", async (_req, res) => {
   try {
     await prisma.$queryRaw`SELECT 1`;
     res.json({ status: "ok", database: "connected" });

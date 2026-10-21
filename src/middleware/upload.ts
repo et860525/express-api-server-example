@@ -11,10 +11,10 @@ if (!fs.existsSync(uploadDir)) {
 
 // Configure storage
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (_req, _file, cb) => {
     cb(null, "uploads/"); // Store files in 'uploads' directory
   },
-  filename: (req, file, cb) => {
+  filename: (_req, file, cb) => {
     // cb(null, Date.now() + path.extname(file.originalname)); // Rename file
     const safeFilename = Buffer.from(file.originalname, "latin1").toString(
       "utf8",

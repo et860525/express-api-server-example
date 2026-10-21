@@ -26,7 +26,7 @@ export function parseJwt(token: string): AccountToken | undefined {
     ) as AccountToken;
 
     return decodedToken;
-  } catch (error) {
+  } catch (_error) {
     console.error("JWT 解析錯誤");
     return;
   }

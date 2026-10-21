@@ -23,6 +23,9 @@ src/generated/
 .vscode/
 .idea/
 
+# Claude Code 本機工具狀態（.claude/skills 內是壞掉的 symlink，與專案無關）
+.claude/
+
 # 暫存
 *.log
 

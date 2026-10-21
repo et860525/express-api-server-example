@@ -3,7 +3,7 @@ import { env } from "../env";
 import logger from "../logger";
 
 // 沒有匹配到任何路由，統一回 JSON 而非 Express 預設的 HTML 404 頁
-export const notFoundHandler = (req: Request, res: Response) => {
+export const notFoundHandler = (_req: Request, res: Response) => {
   res.status(404).json({ message: "找不到此路徑" });
 };
 

@@ -143,6 +143,10 @@ TZ=Asia/Taipei
 
 See `DB_RESTORE.md` and `LOGGING.md` for operational details.
 
+## Language
+
+AI 回覆完成後，盡量使用繁體中文。
+
 ## Style
 
 Use Biome as the formatter/linter source of truth.

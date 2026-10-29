@@ -52,7 +52,7 @@ src/
 > ```
 > **一旦專案進入正式開發階段（已有業務邏輯），請停止隨意升級版本。** 版本變動可能引入 breaking change 或難以追蹤的 bug，除非有明確理由（安全性漏洞修補、必要功能支援），否則不應在開發過程中升級依賴。
 
-Clone 後請先執行改名腳本，將專案內所有 `express-api-server` 字串（`docker-compose.yaml`、`db/docker-compose.yaml`、`package.json`、`ecosystem.config.cjs`、`DB_RESTORE.md`）一次替換成你的專案名稱：
+Clone 後請先執行改名腳本，將專案內所有 `express-api-server` 字串（`docker-compose.yaml`、`db/docker-compose.yaml`、`package.json`、`ecosystem.config.cjs`、`docs/DB_RESTORE.md`）一次替換成你的專案名稱：
 
 ```bash
 ./scripts/rename-project.sh your-project-name
@@ -99,7 +99,7 @@ cp .env.example .env
 >
 > **`ENV=production` 時會自動關閉／切換的功能**：
 > - Swagger UI（`/api-docs`）不會註冊，對外一律 404，避免洩漏 API 結構。
-> - 請求記錄改用 `requestLogger`（寫入 `logs/`，見 [LOGGING.md](LOGGING.md)），不再用 `morgan("dev")` 印到終端機。
+> - 請求記錄改用 `requestLogger`（寫入 `logs/`，見 [LOGGING.md](docs/LOGGING.md)），不再用 `morgan("dev")` 印到終端機。
 > - CORS 預設拒絕所有來源，須設定 `CORS_ORIGIN` 才會放行。
 
 ### 3. 定義 Prisma Model
@@ -226,7 +226,7 @@ docker compose up -d
 docker exec express-api-server-db-backup /backup.sh
 ```
 
-資料庫回復程序（含如何選擇備份檔案、暫停服務、還原、回復後確認等完整步驟）請見 [DB_RESTORE.md](DB_RESTORE.md)。
+資料庫回復程序（含如何選擇備份檔案、暫停服務、還原、回復後確認等完整步驟）請見 [DB_RESTORE.md](docs/DB_RESTORE.md)。
 
 ## 上傳檔案備份
 

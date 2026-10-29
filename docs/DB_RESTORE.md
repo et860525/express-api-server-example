@@ -148,7 +148,7 @@ docker compose start app
 - [ ] 回復之資料內容符合指定備份時間點。
 - [ ] 重要資料表及資料內容可正常查詢。
 - [ ] Docker 各項服務均正常運作（`docker ps` 確認皆為 Running）。
-- [ ] 系統及 Docker Log 無持續性錯誤（詳見 `LOGGING.md`）。
+- [ ] 系統及 Docker Log 無持續性錯誤（詳見 `docs/LOGGING.md`）。
 - [ ] MariaDB 無持續性錯誤訊息。
 - [ ] 確認每日凌晨 3:00 自動備份排程設定正常（`docker exec express-api-server-db-backup cat /var/log/backup.log`）。
 - [ ] 回復完成後之下一次自動備份可正常產生備份檔案（隔日確認 `db/db_backups/daily/` 有新檔案）。

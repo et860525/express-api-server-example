@@ -141,7 +141,7 @@ Cron files must contain:
 TZ=Asia/Taipei
 ```
 
-See `DB_RESTORE.md` and `LOGGING.md` for operational details.
+See `docs/DB_RESTORE.md` and `docs/LOGGING.md` for operational details.
 
 ## Language
 

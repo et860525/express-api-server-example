@@ -23,14 +23,14 @@ src/generated/
 .vscode/
 .idea/
 
-# Claude Code 本機工具狀態（.claude/skills 內是壞掉的 symlink，與專案無關）
+# Claude Code 本機工具狀態
 .claude/
 
-# 暫存
-*.log
-
-# log
+# Log
 logs/
+
+# Log 暫存
+*.log
 
 # 資料庫備份&上傳檔案備份
 db/db_backups/
